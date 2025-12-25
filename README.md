@@ -1,7 +1,15 @@
-# plutofi-protocol
-PlutoFi: REACH-Compliant farms finance: Mercosur EU bridge. USDC/EURC lending + oracles. 4 APIs live.
 # 🌾 PlutoFi Protocol
 **REACH-compliant farm finance: Mercosur→EU bridge. USDC/EURC lending + oracles. 4 APIs live.**
+
+## Problem
+
+- Farmers in Mercosur and the EU face slow, collateral-heavy bank loans.
+- Climate and REACH compliance are not rewarded with better credit conditions.
+
+## Solution
+
+- On-chain lending for REACH-compliant farms, backed by land and climate data.
+- Dual stablecoin (USDC/EURC) vaults + oracles + parametric insurance for defaults.
 
 [![Polygon Mumbai](https://img.shields.io/badge/Polygon-Mumbai-green.svg)](https://rpc-mumbai.maticvigil.com)
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -17,7 +25,7 @@ PlutoFi: REACH-Compliant farms finance: Mercosur EU bridge. USDC/EURC lending + 
 ## 🌎 Phase 1 Dual Launch (Q1 2026)
 | Market | Farms | TVL | API |
 |--------|-------|-----|-----|
-| **🇵🇾 Paraguay** | 10 | $2M | MAG |
+| **🇵🇾 Paraguay** | 10 | $2M | MAG land registry + NDVI |
 | **🇮🇹 EU/Piedmont** | 5 | €1.5M | REACH+NDVI |
 | **TOTAL** | **15** | **$3.5M** | 4 APIs live |
 
@@ -64,10 +72,10 @@ Mumbai Testnet (5 min)
 
 ## Architecture
 
-- DualLending: USDC/EURC loans to REACH-compliant farms.
-- GreenOracle: checks 27 REACH chemicals + sustainability rules.
-- LandOracle: land value from MAG / other registries.
-- Insurance: 2% premium with parametric coverage.
+- **PlutoFiDualLending** – USDC/EURC lending pool for approved farms.
+- **PlutoFiGreenOracle** – stores REACH chemicals list and compliance flags per farm.
+- **PlutoFiLandOracle** – land value feed (MAG + other registries).
+- **PlutoFiInsurance** – 2% premium parametric cover (weather / yield triggers).
 
 ## Phase 1 Pilot
 
