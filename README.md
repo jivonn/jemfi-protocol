@@ -22,12 +22,59 @@
 | **Land Oracle** | €2,950/ha MAG API | [DEPLOYED] |
 | **Insurance** | 2% premium → 95% coverage | [DEPLOYED] |
 
-## 🌎 Phase 1 Dual Launch (Q1 2026)
-| Market | Farms | TVL | API |
-|--------|-------|-----|-----|
-| **🇵🇾 Paraguay** | 10 | $2M | MAG land registry + NDVI |
-| **🇮🇹 EU/Piedmont** | 5 | €1.5M | REACH+NDVI |
-| **TOTAL** | **15** | **$3.5M** | 4 APIs live |
+## 🌍 Phase 1 – Dual Launch (Q1 2026)
+
+Market | Farms | Target TVL | Data sources
+|------|-------|------------|-------------|
+| 🇵🇾 **Paraguay** | 10 | $2M | MAG land registry + NDVI |
+| 🇪🇺 **EU/Piedmont** | 5 | €1.5M | REACH + NDVI |
+
+**Goal:** 15 farms, ≈$3.5M TVL, 4 APIs live, and 24h loan disbursement for compliant farms.
+
+
+## 🧭 Phase 1 – Implementation Plan
+
+### 1. Data & partners
+
+- Confirm land and crop data sources for 🇵🇾 Paraguay (MAG cadastre + NDVI provider) and 🇪🇺 Piedmont.[web:522][web:524][web:527]  
+- Sign simple pilot MoUs / email agreements with 3–5 farms per region for data sharing and test loans.  
+- Freeze an initial REACH Annex XVII subset (e.g. 20–30 high‑risk chemicals) that PlutoFi will track on-chain.[web:531][web:537]  
+
+### 2. On‑chain model
+
+- Define a **Farm** struct: `farmId`, `country`, `parcelIds[]`, `owner`, `reachCompliant`, `ndviScore`, `landValue`.  
+- Decide eligibility rules (example): “no banned chemicals + NDVI above threshold + loan ≤ 60% of land value”.[web:532]  
+- Document this in `docs/ARCHITECTURE.md` so contracts, backend and README all use the same fields.
+
+### 3. Oracles
+
+- Implement `PlutoFiLandOracle` with: `setLandValue(parcelId, valuePerHa)` and `getLandValue(parcelId)`; restrict setter to an oracle signer.  
+- Implement `PlutoFiGreenOracle` with: `setFarmCompliance(farmId, isCompliant, reachScore)` and `getFarmCompliance(farmId)`; again, only oracle signer can write.  
+- Write a short `docs/ORACLES.md` describing which external APIs each oracle reads (MAG, NDVI, REACH lists).[web:522][web:523][web:540]  
+
+### 4. Lending & insurance
+
+- In `PlutoFiDualLending`, implement:  
+  - `requestLoan(farmId, amount, token)` → checks Land + Green oracles before creating a loan.  
+  - `approveLoan(loanId)` and `repay(loanId)` → basic lifecycle with interest rate stored per token.  
+- In `PlutoFiInsurance`, implement:  
+  - `buyCover(loanId)` charging 2% premium;  
+  - `triggerPayout(loanId)` callable by oracle/admin for Phase 1 manual triggers.  
+- Keep parameters configurable (interest, LTV, premium) via owner/governance so pilots can be tuned.
+
+### 5. Backend bridge
+
+- Build a small Node.js/TypeScript service that:  
+  - Periodically calls MAG cadastre and NDVI APIs → computes `landValue` and `ndviScore` for each parcel/farm.[web:522][web:529]  
+  - Calls REACH list / CSV once to map banned chemicals to your internal IDs.[web:531][web:534][web:540]  
+  - Uses a private key to send `setLandValue` and `setFarmCompliance` transactions to the oracles.  
+- Expose minimal REST endpoints for your front‑end/admin: `/farms`, `/farms/{id}/loans`, `/metrics`.
+
+### 6. First pilot cohort
+
+- Select 15 farms (10 🇵🇾, 5 🇪🇺) and create them on-chain with their parcels, values and compliance flags.  
+- Run capped loans on Polygon Mumbai (small test amounts), with at least 1–2 loans per farm and simulated insurance events.  
+- Track metrics in `docs/PILOT-REPORT.md`: oracle uptime, average NDVI, average LTV, loan duration and any payouts.
 
 ## 🔌 Live APIs
 1. **Paraguay MAG**: Parcel value + ownership → `/api/parcels/PAR-ABC123`
