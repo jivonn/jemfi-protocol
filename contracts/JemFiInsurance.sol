@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 /// @custom:dev-run-script ./scripts/deploy.js
-contract PlutoFiInsurance is Ownable, ReentrancyGuard {
+contract JemFiInsurance is Ownable, ReentrancyGuard {
    IERC20 public immutable stablecoin;
    uint256 public constant PREMIUM_BPS = 200; // 2%
    uint256 public constant COVERAGE_BPS = 9500; // 95%
