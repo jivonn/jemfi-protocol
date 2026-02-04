@@ -2,7 +2,7 @@ SPDX-License-Identifier: MIT
 pragma import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@api
-contract PlutoFiLandOracle is Ownable, ReentrancyGuard {
+contract JemFiLandOracle is Ownable, ReentrancyGuard {
 IAirnodeRrp public immutable airnodeRrp;
 uint256 public constant LAND_PRICE = 2950e18;
 constructor(address
