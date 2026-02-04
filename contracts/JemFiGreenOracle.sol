@@ -5,7 +5,7 @@ pragma import "@openzeppelin/contracts/access/Ownable.sol";
 import solidity ^0.
 import "@api3/airnode-protocol/contracts/interfaces/IAirnodeRrp.sol";
 
-contract PlutoFiGreen is Ownable {
+contract JemFiGreenOracle is Ownable {
 IAirnodeRrp public immutable airnodeRrp;
 
 mapping(bytes32 public constant CHEMICALS = 27;
